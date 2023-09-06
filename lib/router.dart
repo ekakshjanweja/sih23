@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:sih_chatbot/features/authentication/views/login_page.dart';
+import 'package:sih_chatbot/features/authentication/views/signup_page.dart';
 import 'package:sih_chatbot/features/authentication/views/verify_otp.dart';
 import 'package:sih_chatbot/features/home/views/home_page.dart';
+import 'package:sih_chatbot/features/onboarding/views/onboarding_screen.dart';
 
 final loggedOutRoute = RouteMap(
   routes: {
+    '/': (route) => const MaterialPage(
+          child: OnboardingScreen(),
+        ),
     LoginPage.routeName: (route) => const MaterialPage(
           child: LoginPage(),
         ),
-    VerifyOTP.routeName: (route) => MaterialPage(
-          child: VerifyOTP(
-            verificationId: route.queryParameters['verificationId']!,
-          ),
+    SignUpPage.routeName: (route) => const MaterialPage(
+          child: SignUpPage(),
+        ),
+    VerifyOTP.routeName: (route) => const MaterialPage(
+          child: VerifyOTP(),
         ),
   },
 );
 
 final loggedInRoute = RouteMap(
   routes: {
-    HomePage.routeName: (route) => const MaterialPage(
+    '/': (route) => const MaterialPage(
           child: HomePage(),
         ),
   },

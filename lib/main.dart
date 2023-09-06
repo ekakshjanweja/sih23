@@ -37,8 +37,12 @@ class _MyAppState extends ConsumerState<MyApp> {
     required WidgetRef ref,
     required User data,
   }) async {
-    userModel = await ref.read(authControllerProvider.notifier).getUserData();
+    userModel = await ref.read(authControllerProvider.notifier).getUserData(
+          uid: data.uid,
+        );
+
     ref.read(userProvider.notifier).update((state) => userModel);
+
     setState(() {});
   }
 
@@ -46,7 +50,8 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     return ref.watch(authStateChangesProvider).when(
           data: (data) => MaterialApp.router(
-            title: 'SIH ChatBot',
+            debugShowCheckedModeBanner: false,
+            title: 'GovBuzz',
             theme: ThemeData(
               colorScheme: lightColorScheme,
               useMaterial3: true,

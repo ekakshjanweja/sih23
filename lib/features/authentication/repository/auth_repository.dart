@@ -5,6 +5,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:sih_chatbot/common/providers/firebase_providers.dart';
 import 'package:sih_chatbot/core/failure.dart';
 import 'package:sih_chatbot/core/type_defs.dart';
+import 'package:sih_chatbot/features/authentication/controller/auth_controller.dart';
 import 'package:sih_chatbot/models/user_model.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>(
@@ -34,8 +35,10 @@ class AuthRepository {
 
   //Get Current User Data
 
-  Future<UserModel?> getCurrentUserData() async {
-    final userData = await _users.doc(_firebaseAuth.currentUser!.uid).get();
+  Future<UserModel?> getCurrentUserData({
+    required String uid,
+  }) async {
+    final userData = await _users.doc(uid).get();
 
     UserModel? user;
 
@@ -50,10 +53,10 @@ class AuthRepository {
 
   //Sign In With Phone Number
 
-  FutureEither<OTPSent> signInWithPhone({
+  FutureEither<String> signInWithPhone({
+    required WidgetRef ref,
     required String phoneNumber,
   }) async {
-    OTPSent? otpSentSuccess;
     try {
       await _firebaseAuth.verifyPhoneNumber(
         verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
@@ -63,34 +66,67 @@ class AuthRepository {
           throw error.message!;
         },
         codeSent: (String verificationId, int? forceResendingToken) async {
-          otpSentSuccess = OTPSent(
-            successMessage: 'OTP Sent Successfully',
-            verificationId: verificationId,
-          );
+          ref
+              .read(verificationProvider.notifier)
+              .update((state) => verificationId);
         },
-        codeAutoRetrievalTimeout: (String verificationId) async {},
+        codeAutoRetrievalTimeout: (String verificationId) async {
+          throw 'Auto Retrieval Timeout';
+        },
         phoneNumber: phoneNumber,
       );
 
-      if (otpSentSuccess == null) {
-        throw 'Something went wrong';
-      }
-
-      return right(otpSentSuccess!);
+      return right(ref.read(verificationProvider.notifier).state!);
     } on FirebaseAuthException catch (e) {
       throw e.message!;
     } catch (e) {
       return left(Failure(message: e.toString()));
     }
   }
-}
 
-class OTPSent {
-  final String successMessage;
-  final String verificationId;
+  //Verify OTP
 
-  OTPSent({
-    required this.successMessage,
-    required this.verificationId,
-  });
+  FutureEither<UserModel> verifyOTP({
+    required WidgetRef ref,
+    required String verificationId,
+    required String userOTP,
+  }) async {
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: userOTP,
+      );
+      UserCredential userCredential =
+          await _firebaseAuth.signInWithCredential(credential);
+
+      if (userCredential.additionalUserInfo!.isNewUser) {
+        UserModel userModel =
+            ref.read(newUserOnboardingProvider.notifier).state!;
+
+        await _users.doc(_firebaseAuth.currentUser!.uid).set({
+          'name': userModel.name,
+          'phone': userModel.phone,
+          'uid': _firebaseAuth.currentUser!.uid,
+        });
+
+        await _users
+            .doc(_firebaseAuth.currentUser!.uid)
+            .collection('chats')
+            .doc('chatRooms')
+            .set({'chatRooms': {}});
+      }
+
+      return right(ref.read(newUserOnboardingProvider.notifier).state!);
+    } on FirebaseAuthException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(message: e.toString()));
+    }
+  }
+
+  //Log Out
+
+  void logOut() async {
+    await _firebaseAuth.signOut();
+  }
 }
