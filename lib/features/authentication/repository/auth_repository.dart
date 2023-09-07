@@ -99,9 +99,10 @@ class AuthRepository {
       UserCredential userCredential =
           await _firebaseAuth.signInWithCredential(credential);
 
+      UserModel userModel;
+
       if (userCredential.additionalUserInfo!.isNewUser) {
-        UserModel userModel =
-            ref.read(newUserOnboardingProvider.notifier).state!;
+        userModel = ref.read(newUserOnboardingProvider.notifier).state!;
 
         await _users.doc(_firebaseAuth.currentUser!.uid).set({
           'name': userModel.name,
@@ -114,9 +115,11 @@ class AuthRepository {
             .collection('chats')
             .doc('chatRooms')
             .set({'chatRooms': {}});
+      } else {
+        userModel = ref.read(userProvider.notifier).state!;
       }
 
-      return right(ref.read(newUserOnboardingProvider.notifier).state!);
+      return right(userModel);
     } on FirebaseAuthException catch (e) {
       throw e.message!;
     } catch (e) {

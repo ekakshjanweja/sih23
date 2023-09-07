@@ -43,6 +43,7 @@ dependencies:
   google_sign_in: ^6.1.5
   intl: ^0.18.1
   routemaster: ^1.0.1
+  speech_to_text: ^6.3.0
   uuid: ^4.0.0
 
 dev_dependencies:

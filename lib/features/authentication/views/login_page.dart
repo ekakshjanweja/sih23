@@ -148,8 +148,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                     context: context,
                                     ref: ref,
                                     phoneNumber: ref
-                                        .watch(
-                                            newUserOnboardingProvider.notifier)
+                                        .watch(userProvider.notifier)
                                         .state!
                                         .phone,
                                   );
