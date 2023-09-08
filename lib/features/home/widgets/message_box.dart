@@ -29,76 +29,69 @@ class _MessageBoxState extends ConsumerState<MessageBox> {
         //TextField
 
         Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height * 0.02,
-              left: MediaQuery.of(context).size.width * 0.02,
-              right: MediaQuery.of(context).size.width * 0.02,
-            ),
-            child: TextField(
-              controller: messageController,
-              focusNode: focusNode,
-              onChanged: (value) {
-                if (kDebugMode) {
-                  print('value is: $value');
-                }
-                if (value.isNotEmpty) {
-                  setState(() {
-                    showSendButton = true;
-                  });
-                } else {
-                  setState(() {
-                    showSendButton = false;
-                  });
-                }
-              },
-              decoration: InputDecoration(
-                fillColor: Theme.of(context).colorScheme.primaryContainer,
-                filled: true,
-                hintText: 'Type a message',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  borderSide: const BorderSide(
-                    width: 0,
-                    style: BorderStyle.none,
-                  ),
+          child: TextField(
+            controller: messageController,
+            focusNode: focusNode,
+            onChanged: (value) {
+              if (kDebugMode) {
+                print('value is: $value');
+              }
+              if (value.isNotEmpty) {
+                setState(() {
+                  showSendButton = true;
+                });
+              } else {
+                setState(() {
+                  showSendButton = false;
+                });
+              }
+            },
+            decoration: InputDecoration(
+              fillColor: Theme.of(context).colorScheme.primaryContainer,
+              filled: true,
+              hintText: 'Type a message',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50),
+                borderSide: const BorderSide(
+                  width: 0,
+                  style: BorderStyle.none,
                 ),
-                contentPadding: const EdgeInsets.only(
-                  top: 25,
-                  bottom: 25,
-                  left: 28,
-                ),
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: showSendButton
-                      ? GestureDetector(
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            child: Icon(
-                              Icons.send,
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            ),
+              ),
+              contentPadding: const EdgeInsets.only(
+                top: 25,
+                bottom: 25,
+                left: 28,
+              ),
+              suffixIcon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: showSendButton
+                    ? GestureDetector(
+                        child: Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
-                        )
-                      : GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            child: Icon(
-                              Icons.send,
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            ),
+                          child: Icon(
+                            Icons.send,
+                            color: Theme.of(context).colorScheme.onPrimary,
                           ),
                         ),
-                ),
+                      )
+                    : GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          child: Icon(
+                            Icons.send,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
+                        ),
+                      ),
               ),
             ),
           ),

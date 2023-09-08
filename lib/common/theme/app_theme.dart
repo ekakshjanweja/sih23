@@ -11,7 +11,7 @@ const lightColorScheme = ColorScheme(
   onSecondary: Color(0xFFFFFFFF),
   secondaryContainer: Color(0xFFD7E3F8),
   onSecondaryContainer: Color(0xFF111C2B),
-  tertiary: Color(0xFF272542),
+  tertiary: Color.fromARGB(255, 152, 61, 255),
   onTertiary: Color(0xFFD0BCFF),
   tertiaryContainer: Color(0xFFF5D9FF),
   onTertiaryContainer: Color(0xFF261431),
@@ -70,7 +70,7 @@ const darkColorScheme = ColorScheme(
 );
 
 TextTheme lightTextTheme(BuildContext context) {
-  return GoogleFonts.nunitoSansTextTheme(Theme.of(context).textTheme)
+  return GoogleFonts.josefinSansTextTheme(Theme.of(context).textTheme)
       .apply(
         displayColor: lightColorScheme.onBackground,
       )
@@ -87,7 +87,7 @@ TextTheme lightTextTheme(BuildContext context) {
 }
 
 TextTheme darkTextTheme(BuildContext context) {
-  return GoogleFonts.nunitoSansTextTheme(Theme.of(context).textTheme)
+  return GoogleFonts.josefinSansTextTheme(Theme.of(context).textTheme)
       .apply(
         displayColor: darkColorScheme.onBackground,
       )

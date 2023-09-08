@@ -20,11 +20,17 @@ class $AssetsImagesGen {
   AssetGenImage get blobTwo =>
       const AssetGenImage('assets/images/blob_two.png');
 
+  /// File path: assets/images/frame.svg
+  String get frame => 'assets/images/frame.svg';
+
   /// File path: assets/images/orb.png
   AssetGenImage get orb => const AssetGenImage('assets/images/orb.png');
 
+  /// File path: assets/images/test.png
+  AssetGenImage get test => const AssetGenImage('assets/images/test.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [blobOne, blobTwo, orb];
+  List<dynamic> get values => [blobOne, blobTwo, frame, orb, test];
 }
 
 class Assets {
