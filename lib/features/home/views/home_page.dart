@@ -3,70 +3,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:sih_chatbot/features/authentication/controller/auth_controller.dart';
+import 'package:sih_chatbot/features/home/controller/home_controller.dart';
 import 'package:sih_chatbot/features/home/views/ticket_generation.dart';
 import 'package:sih_chatbot/features/home/widgets/message_box.dart';
 import 'package:sih_chatbot/gen/assets.gen.dart';
-import 'package:speech_to_text/speech_to_text.dart';
+import 'package:sih_chatbot/models/spam_model.dart';
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends ConsumerWidget {
   static const routeName = '/home';
-
   const HomePage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _HomePageState();
-}
-
-class _HomePageState extends ConsumerState<HomePage> {
-  bool isListening = false;
-  bool isSpam = false;
-
-  String? speechToText;
-
-  SpeechToText speechToTextInstance = SpeechToText();
-
-  void startListening() async {
-    if (!isListening) {
-      bool available = await speechToTextInstance.initialize();
-
-      if (available) {
-        setState(() {
-          isListening = true;
-        });
-        setState(
-          () {
-            speechToTextInstance.listen(
-              onResult: (result) => setState(() {
-                speechToText = result.recognizedWords;
-              }),
-            );
-          },
-        );
-      }
-    } else {
-      setState(() {
-        speechToTextInstance.stop();
-      });
-
-      //Give Call to django to get response for whether spam or not
-
-      setState(() {
-        isListening = false;
-      });
-
-      if (!isSpam) {
-        print('Send Text to Django');
-        Routemaster.of(context).push(TicketGeneration.routeName);
-      } else {
-        print('Spam Detected');
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
+
+    bool isListening = ref.watch(isListeningProvider);
+
+    SpamModel spamModel = ref.watch(spamModelProvider);
+
+    String? speechToText = ref.watch(speechToTextProvider);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -84,7 +41,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           actions: [
             IconButton(
               onPressed: () {
-                ref.read(authControllerProvider.notifier).logout();
+                ref.watch(authControllerProvider.notifier).logout();
               },
               icon: Icon(
                 Icons.logout,
@@ -119,7 +76,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                     top: currentHeight * 0.01,
                     left: currentWidth / 5,
                     child: Text(
-                      'Talk About\nYour Grievance.....',
+                      spamModel.spam
+                          ? 'I\'m sorry, could you\nplease repeat that?'
+                          : 'Talk About\nYour Grievance.....',
                       style:
                           Theme.of(context).textTheme.headlineSmall!.copyWith(
                                 fontWeight: FontWeight.bold,
@@ -181,14 +140,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                         left: currentWidth * 0.08,
                         right: currentWidth * 0.08,
                         child: Text(
-                          isSpam
-                              ? 'Sorry did\'nt get that could you try again?'
-                              : speechToText ?? '',
-                          style: isSpam
-                              ? Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                    color: Theme.of(context).colorScheme.error,
-                                  )
-                              : Theme.of(context).textTheme.bodyLarge,
+                          speechToText ?? '',
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
 
@@ -216,25 +169,51 @@ class _HomePageState extends ConsumerState<HomePage> {
                 //Mic
 
                 Positioned(
-                  top: currentHeight * 0.6,
-                  left: 0,
-                  right: 0,
-                  child: FilledButton.icon(
-                    onPressed: startListening,
-                    icon: Icon(
-                      isListening ? Icons.record_voice_over : Icons.mic,
-                      size: 32,
-                      color: Theme.of(context).colorScheme.onPrimary,
+                  top: currentHeight * 0.55,
+                  left: currentWidth * 0.3,
+                  right: currentWidth * 0.3,
+                  child: Container(
+                    width: currentWidth * 0.3,
+                    height: currentWidth * 0.3,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isListening
+                          ? Theme.of(context).colorScheme.tertiary
+                          : Theme.of(context).colorScheme.primary,
                     ),
-                    label: Text(
-                      isListening
-                          ? isSpam
-                              ? 'Try Again'
-                              : 'Submit'
-                          : 'Talk it out',
+                    child: IconButton(
+                      onPressed: () {
+                        ref
+                            .read(homeControllerProvider)
+                            .startListening(context: context, ref: ref);
+                      },
+                      icon: Icon(
+                        isListening ? Icons.mic : Icons.mic,
+                        size: 64,
+                        color: isListening
+                            ? Theme.of(context).colorScheme.onTertiary
+                            : Theme.of(context).colorScheme.onPrimary,
+                      ),
                     ),
                   ),
                 ),
+
+                // Positioned(
+                //   top: currentHeight * 0.6,
+                //   left: 0,
+                //   right: 0,
+                //   child: FilledButton.icon(
+                //     onPressed: startListening,
+                //     icon: Icon(
+                //       isListening ? Icons.record_voice_over : Icons.mic,
+                //       size: 32,
+                //       color: Theme.of(context).colorScheme.onPrimary,
+                //     ),
+                //     label: Text(
+                //       isListening ? 'Submit' : 'Talk it out',
+                //     ),
+                //   ),
+                // ),
 
                 // //Type A Message
 
