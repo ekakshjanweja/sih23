@@ -58,25 +58,18 @@ class HomeRepository {
     try {
       final accessToken = dotenv.env['ACCESS_TOKEN'];
 
-      Response response = await _api.sendRequest.post(
-        '',
-        data: {
-          'access': accessToken,
-          'message': message,
-        },
-      );
+      Response response = await _api.sendRequest.post('/spam-detector/', data: {
+        "access": accessToken,
+        "message": message,
+      });
 
       ApiResponse apiResponse = ApiResponse.fromResponse(response);
-
-      // print(apiResponse);
-
-      print(response.data['data']);
 
       if (!apiResponse.success) {
         throw Exception(apiResponse.message.toString());
       }
 
-      SpamModel spamModel = SpamModel.fromJson(apiResponse.data);
+      SpamModel spamModel = SpamModel.fromMap(apiResponse.data);
 
       return right(spamModel);
     } catch (e) {

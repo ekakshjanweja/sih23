@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:routemaster/routemaster.dart';
 import 'package:sih_chatbot/features/authentication/controller/auth_controller.dart';
 import 'package:sih_chatbot/features/home/controller/home_controller.dart';
-import 'package:sih_chatbot/features/home/views/ticket_generation.dart';
 import 'package:sih_chatbot/features/home/widgets/message_box.dart';
 import 'package:sih_chatbot/gen/assets.gen.dart';
 import 'package:sih_chatbot/models/spam_model.dart';
 
 class HomePage extends ConsumerWidget {
-  static const routeName = '/home';
+  static const routeName = '/';
   const HomePage({super.key});
 
   @override

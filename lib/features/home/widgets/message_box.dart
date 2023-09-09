@@ -66,6 +66,7 @@ class _MessageBoxState extends ConsumerState<MessageBox> {
                 padding: const EdgeInsets.all(8.0),
                 child: showSendButton
                     ? GestureDetector(
+                        onTap: () {},
                         child: Container(
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(

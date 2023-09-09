@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:sih_chatbot/common/utils/utils.dart';
 import 'package:sih_chatbot/features/authentication/repository/auth_repository.dart';
+import 'package:sih_chatbot/features/home/views/home_page.dart';
 import 'package:sih_chatbot/models/user_model.dart';
 
 final userProvider = StateProvider<UserModel?>((ref) => null);
@@ -86,7 +87,7 @@ class AuthController extends StateNotifier<bool> {
     otpVerification.fold(
       (l) => showSnackBar(context: context, content: l.message),
       (r) {
-        Routemaster.of(context).popUntil((routeData) => false);
+        Routemaster.of(context).push(HomePage.routeName);
       },
     );
   }

@@ -26,7 +26,7 @@ final loggedOutRoute = RouteMap(
 
 final loggedInRoute = RouteMap(
   routes: {
-    '/': (route) => const MaterialPage(
+    HomePage.routeName: (route) => const MaterialPage(
           child: HomePage(),
         ),
     TicketGeneration.routeName: (route) => const MaterialPage(

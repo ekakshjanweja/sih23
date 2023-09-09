@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 //Base URL
 
-const String BASE_URL = "https://govsolv-ai-server.aryan.cfd/spam-detector/";
+const String BASE_URL = "https://govsolv-ai-server.aryan.cfd";
 
 //Default Headers
 
@@ -48,10 +50,11 @@ class ApiResponse {
   });
 
   factory ApiResponse.fromResponse(Response response) {
-    final data = response.data as Map<String, dynamic>;
+    var data = jsonDecode(response.toString());
+
     return ApiResponse(
       success: data["success"],
-      data: data["data"],
+      data: data["data"] as Map<String, dynamic>,
       message: data["message"],
     );
   }

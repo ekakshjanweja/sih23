@@ -147,10 +147,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   .signInWithPhone(
                                     context: context,
                                     ref: ref,
-                                    phoneNumber: ref
-                                        .watch(userProvider.notifier)
-                                        .state!
-                                        .phone,
+                                    phoneNumber:
+                                        '+91${phoneController.text.trim()}',
                                   );
                             },
                             child: const Text('Request OTP'),

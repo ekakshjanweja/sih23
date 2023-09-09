@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class SpamModel {
   final bool spam;
-  final String probability;
+  final int probability;
 
   SpamModel({
     required this.spam,
@@ -19,7 +19,7 @@ class SpamModel {
   factory SpamModel.fromMap(Map<String, dynamic> map) {
     return SpamModel(
       spam: map['spam'] as bool,
-      probability: map['probability'] as String,
+      probability: map['probability'] as int,
     );
   }
 
