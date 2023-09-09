@@ -68,6 +68,10 @@ class HomeRepository {
 
       ApiResponse apiResponse = ApiResponse.fromResponse(response);
 
+      // print(apiResponse);
+
+      print(response.data['data']);
+
       if (!apiResponse.success) {
         throw Exception(apiResponse.message.toString());
       }
