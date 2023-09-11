@@ -121,7 +121,9 @@ class HomePage extends ConsumerWidget {
                         top: currentHeight * 0.04,
                         left: currentWidth * 0.08,
                         child: Text(
-                          'Talk About \nYour Grievance......',
+                          spamModel.spam
+                              ? 'I\'m sorry could you\nrepeat that again?'
+                              : 'Talk About \nYour Grievance......',
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall!

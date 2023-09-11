@@ -3,6 +3,7 @@ import 'package:routemaster/routemaster.dart';
 import 'package:sih_chatbot/features/authentication/views/login_page.dart';
 import 'package:sih_chatbot/features/authentication/views/signup_page.dart';
 import 'package:sih_chatbot/features/authentication/views/verify_otp.dart';
+import 'package:sih_chatbot/features/community/views/communty_screen.dart';
 import 'package:sih_chatbot/features/home/views/home_page.dart';
 import 'package:sih_chatbot/features/home/views/ticket_generation.dart';
 import 'package:sih_chatbot/features/onboarding/views/onboarding_screen.dart';
@@ -31,6 +32,9 @@ final loggedInRoute = RouteMap(
         ),
     TicketGeneration.routeName: (route) => const MaterialPage(
           child: TicketGeneration(),
+        ),
+    CommunityScreen.routeName: (route) => const MaterialPage(
+          child: CommunityScreen(),
         ),
   },
 );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:routemaster/routemaster.dart';
+import 'package:sih_chatbot/features/community/views/communty_screen.dart';
 import 'package:sih_chatbot/gen/assets.gen.dart';
 
 class TicketGeneration extends ConsumerWidget {
@@ -136,6 +138,7 @@ class TicketGeneration extends ConsumerWidget {
                 ),
 
                 //Ministry Details
+
                 FilledButton(
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all(
@@ -147,6 +150,58 @@ class TicketGeneration extends ConsumerWidget {
                   ),
                   onPressed: () {},
                   child: const Text('Ministry of Jal Shakti'),
+                ),
+
+                //Comunity Button
+
+                SizedBox(
+                  height: currentHeight * 0.05,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //Home
+
+                    IconButton.filledTonal(
+                      onPressed: () {},
+                      icon: Container(
+                        padding: const EdgeInsets.all(15),
+                        child: const Icon(
+                          Icons.home_rounded,
+                          size: 32,
+                        ),
+                      ),
+                    ),
+
+                    //Community
+
+                    IconButton.filledTonal(
+                      onPressed: () {
+                        Routemaster.of(context).push(CommunityScreen.routeName);
+                      },
+                      icon: Container(
+                        padding: const EdgeInsets.all(15),
+                        child: const Icon(
+                          Icons.people_alt_rounded,
+                          size: 32,
+                        ),
+                      ),
+                    ),
+
+                    //Settings
+
+                    IconButton.filledTonal(
+                      onPressed: () {},
+                      icon: Container(
+                        padding: const EdgeInsets.all(15),
+                        child: const Icon(
+                          Icons.settings_rounded,
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
