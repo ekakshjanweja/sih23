@@ -87,6 +87,7 @@ class AuthController extends StateNotifier<bool> {
     otpVerification.fold(
       (l) => showSnackBar(context: context, content: l.message),
       (r) {
+        Routemaster.of(context).popUntil((routeData) => false);
         Routemaster.of(context).push(HomePage.routeName);
       },
     );

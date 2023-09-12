@@ -26,7 +26,7 @@ class OnboardingScreen extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(
-              vertical: currentHeight * 0.05,
+              vertical: currentHeight * 0.03,
               horizontal: currentWidth * 0.06,
             ),
             child: Stack(
@@ -110,7 +110,7 @@ class OnboardingScreen extends StatelessWidget {
                 //Register Now
 
                 Positioned(
-                  top: currentHeight * 0.73,
+                  top: currentHeight * 0.68,
                   left: 0,
                   right: 0,
                   child: FilledButton.tonal(
@@ -124,7 +124,7 @@ class OnboardingScreen extends StatelessWidget {
                 //Already have an account
 
                 Positioned(
-                  top: currentHeight * 0.80,
+                  top: currentHeight * 0.75,
                   left: 0,
                   right: 0,
                   child: FilledButton(

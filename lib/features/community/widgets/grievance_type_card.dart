@@ -12,11 +12,12 @@ class GrievanceTypeCard extends ConsumerWidget {
       width: currentWidth * 0.8,
       height: currentHeight * 0.2,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          transform: const GradientRotation(120),
+        borderRadius: BorderRadius.circular(20),
+        gradient: const LinearGradient(
+          transform: GradientRotation(3.14 / 2),
           colors: [
-            Theme.of(context).colorScheme.secondary.withOpacity(0.4),
-            Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
+            Colors.transparent,
+            Color(0xff0011E0),
           ],
         ),
       ),
