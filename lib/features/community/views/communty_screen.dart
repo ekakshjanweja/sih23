@@ -148,7 +148,7 @@ class CommunityScreen extends ConsumerWidget {
                       ),
 
                       SizedBox(
-                        height: currentHeight * 0.03,
+                        height: currentHeight * 0.01,
                       ),
 
                       //Top Grievances this week
@@ -159,12 +159,39 @@ class CommunityScreen extends ConsumerWidget {
                       ),
 
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.03,
+                        height: MediaQuery.of(context).size.height * 0.01,
                       ),
 
                       //Cards
 
-                      GrievanceTypeCard()
+                      SizedBox(
+                        height: currentHeight * 0.4,
+                        width: currentWidth,
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                          ),
+                          itemCount: 4,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GrievanceTypeCard(
+                              title: 'Food Grievances',
+                              number: index + 1,
+                            );
+                          },
+                        ),
+                      ),
+
+                      //See All
+
+                      SizedBox(
+                        width: currentWidth,
+                        child: FilledButton.tonal(
+                          onPressed: () {},
+                          child: const Text('See All'),
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -8,7 +8,14 @@ import 'package:sih_chatbot/gen/assets.gen.dart';
 class TicketGeneration extends ConsumerWidget {
   static const routeName = '/ticket-generation';
 
-  const TicketGeneration({super.key});
+  final String ticketId;
+  final String department;
+
+  const TicketGeneration({
+    super.key,
+    required this.ticketId,
+    required this.department,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -101,13 +108,12 @@ class TicketGeneration extends ConsumerWidget {
                       ),
 
                       Text(
-                        '123456789',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium!
-                            .copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                        ticketId,
+                        style:
+                            Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                       ),
 
                       SizedBox(
@@ -124,7 +130,7 @@ class TicketGeneration extends ConsumerWidget {
                       ),
 
                       Text(
-                        'Ministry of Jal Shakti',
+                        department,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: Theme.of(context).colorScheme.onBackground,
                             ),
@@ -149,7 +155,7 @@ class TicketGeneration extends ConsumerWidget {
                     ),
                   ),
                   onPressed: () {},
-                  child: const Text('Ministry of Jal Shakti'),
+                  child: Text(department),
                 ),
 
                 //Comunity Button

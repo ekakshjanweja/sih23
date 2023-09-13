@@ -28,4 +28,11 @@ class Strings {
       ),
     );
   }
+
+  //Ministry List
+
+  static const List<String> depts = [
+    'Ministry of Road Transport & Highways',
+    'Ministry of Jal Shakti',
+  ];
 }

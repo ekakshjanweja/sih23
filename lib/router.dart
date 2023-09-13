@@ -30,8 +30,11 @@ final loggedInRoute = RouteMap(
     HomePage.routeName: (route) => const MaterialPage(
           child: HomePage(),
         ),
-    TicketGeneration.routeName: (route) => const MaterialPage(
-          child: TicketGeneration(),
+    TicketGeneration.routeName: (route) => MaterialPage(
+          child: TicketGeneration(
+            ticketId: route.queryParameters['ticketId']!,
+            department: route.queryParameters['department']!,
+          ),
         ),
     CommunityScreen.routeName: (route) => const MaterialPage(
           child: CommunityScreen(),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nanoid2/nanoid2.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:sih_chatbot/common/constants/strings.dart';
 import 'package:sih_chatbot/common/utils/utils.dart';
 import 'package:sih_chatbot/features/home/repository/home_repository.dart';
 import 'package:sih_chatbot/features/home/views/ticket_generation.dart';
@@ -9,7 +11,10 @@ import 'package:sih_chatbot/models/spam_model.dart';
 final isListeningProvider = StateProvider<bool>((ref) => false);
 
 final spamModelProvider = StateProvider<SpamModel>(
-  (ref) => SpamModel(spam: false, probability: 0),
+  (ref) => SpamModel(
+    spam: false,
+    department: null,
+  ),
 );
 
 final speechToTextProvider = StateProvider<String?>((ref) => null);
@@ -71,7 +76,16 @@ class HomeController {
           ref
               .read(grievanceProvider.notifier)
               .update((state) => ref.read(speechToTextProvider));
-          Routemaster.of(context).push(TicketGeneration.routeName);
+          Routemaster.of(context).push(
+            TicketGeneration.routeName,
+            queryParameters: {
+              'ticketId': nanoid(
+                length: 6,
+              ),
+              'department':
+                  Strings.depts[ref.read(spamModelProvider).department ?? 0],
+            },
+          );
         }
 
         ref.read(speechToTextProvider.notifier).update((state) => null);
