@@ -5,7 +5,11 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 //Base URL
 
-const String BASE_URL = "https://govsolv-ai-server.aryan.cfd";
+// const String BASE_URL = "https://govsolv-ai-server.aryan.cfd";
+
+//Local
+
+const String BASE_URL = "http://10.0.2.2:8000";
 
 //Default Headers
 

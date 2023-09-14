@@ -11,6 +11,7 @@ import 'package:sih_chatbot/firebase_options.dart';
 import 'package:sih_chatbot/common/theme/app_theme.dart';
 import 'package:sih_chatbot/models/user_model.dart';
 import 'package:sih_chatbot/router.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main(List<String> args) async {
   await dotenv.load(fileName: '.env');
@@ -76,6 +77,16 @@ class _MyAppState extends ConsumerState<MyApp> {
               },
             ),
             routeInformationParser: const RoutemasterParser(),
+            localizationsDelegates: const [
+              GlobalCupertinoLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'), // English
+              Locale('hi'), // Hindi
+              // Locale('ta'), //Tamil
+            ],
           ),
           error: (error, stackTrace) => ErrorPage(
             errorText: error.toString(),
